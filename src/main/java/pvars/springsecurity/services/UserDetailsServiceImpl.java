@@ -9,7 +9,7 @@ import pvars.springsecurity.models.User;
 import pvars.springsecurity.repositories.UserRepository;
 
 @Service
-public class UserDetailServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
