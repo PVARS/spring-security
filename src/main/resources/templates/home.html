@@ -6,6 +6,10 @@
 </head>
 <body>
     <h1>This is home</h1>
+    <label>Logged user: <span sec:authentication="name"></span></label>
+    <br>
+    <label>Role: <span sec:authentication="principal.authorities"></span></label>
+    <br>
     <a th:href="@{/logout}">Logout</a>
 </body>
 </html>
