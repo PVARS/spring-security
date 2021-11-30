@@ -9,8 +9,14 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        #alert-messages{
+            display: none;
+        }
+    </style>
 </head>
 <body>
+<noscript>No Script</noscript>
 <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
     <div class="container">
         <a class="navbar-brand" href="#">Spring Security</a>
@@ -40,25 +46,23 @@
                 <div class="card">
                     <div class="card-header">Login</div>
                     <div class="card-body">
-                        <div class="alert alert-dark" id="alert-messages" role="alert" th:if="${MESSAGES}" th:text="${MESSAGES}"></div>
-                        <form th:action="@{/handle}" th:object="${loginForm}" method="POST">
+                        <div class="alert alert-success" role="alert" th:if="${MESSAGES}"
+                             th:text="${MESSAGES}"></div>
+                        <div class="alert alert-danger" role="alert" th:if="${param.error}">Invalid username or password.</div>
+                        <form th:action="@{/login}" method="POST" id="form-login">
                             <div class="form-group row">
                                 <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
                                 <div class="col-md-6">
-                                    <input type="text" th:field="*{username}" id="username" class="form-control"
+                                    <input type="text" id="username" class="form-control"
                                            name="username" autofocus autocomplete="off">
                                 </div>
-                                <span class="alert alert-danger mt-1" th:if="${#fields.hasErrors('username')}"
-                                      th:errors="*{username}"></span>
                             </div>
 
                             <div class="form-group row">
                                 <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                                 <div class="col-md-6">
-                                    <input type="password" th:field="*{password}" id="password" class="form-control" name="password">
+                                    <input type="password" id="password" class="form-control" name="password">
                                 </div>
-                                <span class="alert alert-danger mt-1" th:if="${#fields.hasErrors('password')}"
-                                      th:errors="*{password}"></span>
                             </div>
 
                             <div class="form-group row">
@@ -72,7 +76,7 @@
                             </div>
 
                             <div class="col-md-6 offset-md-4">
-                                <button id="btn-login" type="submit" class="btn btn-primary">
+                                <button id="btn-login" type="button" class="btn btn-primary">
                                     Login
                                 </button>
                                 <a href="#" class="btn btn-link">
@@ -96,5 +100,40 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    const btnLogin = document.getElementById("btn-login");
+    const username = document.getElementById("username");
+    const password = document.getElementById("password");
+    const formLogin = document.querySelector("form");
+
+    btnLogin.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        let errors = [];
+
+        if (username.value === ""){
+            errors.push("Please enter username.");
+        } else if (username.value.length < 3 || username.value.length > 50){
+            errors.push("Username should be in between 3 - 50 character.");
+        }
+
+        if (password.value === ""){
+            errors.push("Please enter password.");
+        } else if (password.value.length < 3 || username.value.length > 50){
+            errors.push("Password should be in between 3 - 50 character.");
+        }
+
+        if (errors.length > 0){
+            swal(errors.join("\n"));
+
+            return false;
+        }
+
+        formLogin.submit();
+
+        return true
+    })
+</script>
 </body>
 </html>
