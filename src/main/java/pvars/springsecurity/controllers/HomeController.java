@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Pattern;
 
 @Controller
 public class HomeController implements WebMvcConfigurer {
@@ -31,9 +32,12 @@ public class HomeController implements WebMvcConfigurer {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(required = false, value = "error") String error, Model model) {
-        if (error != null){
-            model.addAttribute("MESSAGES", "Invalid username or password.");
+    public String login(@RequestParam(required = false, value = "privacy_token") String privacyToken, Model model) {
+        String isBase64 = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$";
+        if (privacyToken != null){
+            if (Pattern.matches(isBase64, privacyToken)){
+                model.addAttribute("MESSAGES", "Invalid username or password.");
+            }
         }
 
         return "login";

@@ -12,17 +12,17 @@ const validation = () => {
 
     if (isEmpty(username.value) || isEmpty(password.value)) {
         errors.push("Please enter username and password.");
-        username.classList.add("error-border");
-        password.classList.add("error-border");
+        addClass(username);
+        addClass(password);
     } else {
         if (getLength(username.value) < MIN_STR || getLength(username.value) > MAX_STR) {
             errors.push(`Username should be in between ${MIN_STR} - ${MAX_STR} character.`);
-            username.classList.add("error-border");
+            addClass(username);
         }
 
         if (getLength(password.value) < MIN_STR || getLength(password.value) > MAX_STR) {
             errors.push(`Password should be in between ${MIN_STR} - ${MAX_STR} character.`);
-            password.classList.add("error-border");
+            addClass(password);
         }
     }
 

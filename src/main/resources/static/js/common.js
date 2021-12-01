@@ -1,10 +1,19 @@
 "use strict";
 
-const errorBorder = document.getElementsByClassName("error-border");
+const errorClassName = "error-border";
+const errorBorder = document.getElementsByClassName(errorClassName);
 const alert = document.getElementsByClassName("alert");
 
 const alertMessage = (title = false, msg) => {
     $.alert({title: title, content: msg.join("<br>")})
+};
+
+const addClass = (element, className = errorClassName) => {
+    element.classList.add(className);
+};
+
+const removeClass = (element, className = errorClassName) => {
+    element.classList.remove(className);
 };
 
 const removeParamsFromUrl = () => {
@@ -15,9 +24,9 @@ const removeParamsFromUrl = () => {
     }
 };
 
-const removeElementsErrors = (element = alert, classErrorBorder = "error-border") => {
+const removeElementsErrors = (element = alert) => {
     for (let errorBorderElement of errorBorder) {
-        errorBorderElement.classList.remove(classErrorBorder);
+        removeClass(errorBorderElement);
     }
     for (let i = 0; i < element.length; i++) {
         element[i].parentNode.removeChild(element[i]);
