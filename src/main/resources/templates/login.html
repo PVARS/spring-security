@@ -1,22 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Login</title>
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        #alert-messages{
-            display: none;
-        }
-    </style>
-</head>
+<head th:replace="layouts/imports/head :: head"></head>
 <body>
-<noscript>No Script</noscript>
+<noscript>Please enable Javascript</noscript>
 <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
     <div class="container">
         <a class="navbar-brand" href="#">Spring Security</a>
@@ -46,9 +32,10 @@
                 <div class="card">
                     <div class="card-header">Login</div>
                     <div class="card-body">
-                        <div class="alert alert-success" role="alert" th:if="${MESSAGES}"
-                             th:text="${MESSAGES}"></div>
-                        <div class="alert alert-danger" role="alert" th:if="${param.error}">Invalid username or password.</div>
+                        <div class="alert" th:classappend="${param.error} ? 'alert-danger' : 'alert-success'"
+                             role="alert" th:if="${MESSAGES}"
+                             th:text="${MESSAGES}">
+                        </div>
                         <form th:action="@{/login}" method="POST" id="form-login">
                             <div class="form-group row">
                                 <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
@@ -91,49 +78,14 @@
     </div>
 </main>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script>
-    const btnLogin = document.getElementById("btn-login");
-    const username = document.getElementById("username");
-    const password = document.getElementById("password");
-    const formLogin = document.querySelector("form");
-
-    btnLogin.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        let errors = [];
-
-        if (username.value === ""){
-            errors.push("Please enter username.");
-        } else if (username.value.length < 3 || username.value.length > 50){
-            errors.push("Username should be in between 3 - 50 character.");
-        }
-
-        if (password.value === ""){
-            errors.push("Please enter password.");
-        } else if (password.value.length < 3 || username.value.length > 50){
-            errors.push("Password should be in between 3 - 50 character.");
-        }
-
-        if (errors.length > 0){
-            swal(errors.join("\n"));
-
-            return false;
-        }
-
-        formLogin.submit();
-
-        return true
-    })
-</script>
+<!--Bootstrap JS-->
+<script th:src="@{/js/bootstrap/jquery-3.2.1.slim.min.js}"></script>
+<script th:src="@{/js/bootstrap/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+<!--jQuery alert confirm-->
+<script th:src="@{/js/bootstrap/jquery-confirm.min.js}"></script>
+<!--App JS-->
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/validation-login.js}"></script>
 </body>
 </html>
